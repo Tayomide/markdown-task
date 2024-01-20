@@ -1,11 +1,12 @@
 # import necessary modules
+from task_service import Tasks
 import re
 import hashlib
 import json
-from task_service import Tasks
+import os
 
 # Set the directory of the to-do list file
-TODO_DIR = "Location of the note you want to parse e.g C:\\path\\to\\file\\file.md"
+TODO_DIR = os.getenv("TODO_DIR")
 
 # Initialize the Tasks service
 task_service = Tasks()
