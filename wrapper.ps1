@@ -10,4 +10,4 @@ $appProcess = Start-Process $env:applicationPath -PassThru
 $appProcess.WaitForExit()
 
 # Run the Python script - Replace my python script path with yours
-& $env:python_exe env.py
+& $env:python_exe test.py
