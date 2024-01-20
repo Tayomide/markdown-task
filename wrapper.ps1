@@ -1,11 +1,13 @@
 # Path to the text editor application you want to start
-$applicationPath = 'C:\path\to\your\obsidian\application\Obsidian.exe'
+$env:TODO_DIR = ""
+$env:python_exe = "C:\Python311\python.exe"
+$env:applicationPath= ""
 
 # Start the application
-$appProcess = Start-Process $applicationPath -PassThru
+$appProcess = Start-Process $env:applicationPath -PassThru
 
 # Wait for the app to exit
 $appProcess.WaitForExit()
 
 # Run the Python script - Replace my python script path with yours
-C:\Python311\python.exe test.py
+& $env:python_exe env.py
