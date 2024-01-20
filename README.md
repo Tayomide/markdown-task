@@ -2,16 +2,23 @@
 This setup provides a way to add/delete/complete and edit tasks from your note-taking app without the need to interact with any other software(like google tasks) or promise yourself you'll do it later
 
 # Setup
-## wrapper.ps1
-- Add your note-taking executable file to the $applicationPath variable
+## Environment Variables
+### Windows
+In wrapper.ps1
+- Add the path to the file used for your todo in the $TODO_DIR variable
 e.g
 ```
-$applicationPath = 'C:\path\to\your\obsidian\application\Obsidian.exe'
+$env:TODO_DIR = 'C:\path\to\your\todo\file[.txt, .md...]
 ```
-- Change ``C:\Python311\python.exe`` to your default python executable
+- Change the `$env:python_exe` file path ``C:\Python311\python.exe`` to your default python executable
+- Add your note taking executable file to the $applicationPath variable
+e.g
+```
+$env:applicationPath = 'C:\path\to\your\obsidian\application\Obsidian.exe'
+```
 
 ## credentials.json
-- Follow this [tutorial](https://developers.google.com/workspace/guides/create-credentials#desktop-app) to get your credentials.json file. Remember to download the JSON and replace the current credentials.json file.
+- Follow this [tutorial](https://developers.google.com/workspace/guides/create-credentials#desktop-app) to get your credentials.json file. Remember to download the json, rename it as credentials.json and keep the file in this repository
 
 ## python
 - Install the dependencies
