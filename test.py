@@ -79,8 +79,8 @@ for taskId in tasks:
     elif(not tasks[taskId]["completed"] and "completed" in prev_tasks[taskId]):
       prev_tasks[taskId]["status"] = "needsAction"
       updated_tasks.append(taskId)
-    elif("weekly" in tasks[taskId]["tags"] or "monthly" in tasks[taskId]["tags"]):
-      prev_tasks[taskId]["due"] = task_service.get_due_date(tasks[taskId]["tags"])
+    elif("daily" in tasks[taskId]["tags"] or "weekly" in tasks[taskId]["tags"] or "monthly" in tasks[taskId]["tags"]):
+      prev_tasks[taskId]["due"] = task_service.update_due_date(tasks[taskId]["tags"], prev_tasks[taskId]["due"])
       updated_tasks.append(taskId)
     else:
       tasks[taskId] = prev_tasks[taskId]
