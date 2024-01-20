@@ -6,6 +6,7 @@ from googleapiclient.discovery import build
 import os.path
 import pickle
 from datetime import datetime, timezone, timedelta
+import math
 
 # Define the scope for Google API access
 SCOPES = ['https://www.googleapis.com/auth/tasks']
@@ -66,19 +67,15 @@ class Tasks:
     tags = [tag.lower() for tag in tags]
     current_date = datetime.now(timezone.utc)
     current_day = current_date.weekday()
-    days_left = 7
+    days_left = 1
     # Assign days left based on the tag
     # 'today', 'tomorrow', specific weekdays, 'week', or 'month'
     if(len(tags) == 0):
-      days_left = 7
+      days_left = 1
     elif "today" in tags:
       days_left = 0
     elif "tomorrow" in tags:
       days_left = 1
-    elif "week" in tags:
-      days_left = 7
-    elif "month" in tags:
-      days_left = 30
     elif "monday" in tags:
       days_left = (0 - current_day) % 7
     elif "tuesday" in tags:
@@ -97,5 +94,31 @@ class Tasks:
     # Calculate the due date and return in RFC 3339 format
     return (
       datetime.now(timezone.utc) +
+      timedelta(days=days_left)
+    ).isoformat().replace("+00:00", "Z")
+
+  def update_due_date(self, tags, prev_date):
+    tags = [tag.lower() for tag in tags]
+    current_date = datetime.now(timezone.utc)
+    prev_date = datetime.fromisoformat(prev_date.replace("Z", "+00:00"))
+    if prev_date > current_date: return prev_date.isoformat().replace("+00:00", "Z")
+    print("Passed here")
+    days_left = 1
+    # Assign days left based on the tag
+    # 'today', 'tomorrow', specific weekdays, 'week', or 'month'
+
+    if "daily" in tags:
+      days = (current_date - prev_date).days
+      days_left = days + 1
+    elif "weekly" in tags:
+      days = (current_date - prev_date).days
+      days_left = (math.floor(days / 7) + 1) * 7
+    elif "monthly" in tags:
+      days = (current_date - prev_date).days
+      days_left = (math.floor(days / 30) + 1) * 30
+
+    # Calculate the due date and return in RFC 3339 format
+    return (
+      prev_date +
       timedelta(days=days_left)
     ).isoformat().replace("+00:00", "Z")
